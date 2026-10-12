@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Dulces Aromas — Panel Administrativo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF4EC;
+    --panel:#FFFFFF;
+    --rose:#EFC3CE;
+    --rose-mid:#E19DB0;
+    --rose-deep:#B96C86;
+    --cafe:#8A6C5C;
+    --cafe-dark:#4A342C;
+    --ink:#3A2A23;
+    --border:#EADDD0;
+    --good:#7A9E7E;
+    --good-bg:#EAF2EA;
+    --warn:#CC9A4A;
+    --warn-bg:#FBF1E1;
+    --bad:#C1685F;
+    --bad-bg:#FAEAE8;
+    --info:#7C93B8;
+    --info-bg:#EBEFF6;
+    --radius-s:6px;
+    --radius-m:10px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Work Sans', sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+  }
+  h1,h2,h3{
+    font-family:'Fraunces', serif;
+    color:var(--cafe-dark);
+    margin:0;
+  }
+  /* ---------- LOGIN ---------- */
+  #login-screen{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at 15% 20%, #F6DCE2 0%, transparent 45%),
+      radial-gradient(circle at 85% 80%, #F3E4CF 0%, transparent 50%),
+      var(--cream);
+    padding:24px;
+  }
+  .login-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius-m);
+    padding:44px 40px;
+    width:100%;
+    max-width:380px;
+    box-shadow:0 18px 40px -20px rgba(74,52,44,0.25);
+  }
+  .brand-mark{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .brand-mark .icon{
+    width:44px;height:44px;
+    border-radius:50%;
+    background:linear-gradient(160deg, var(--rose) 0%, var(--rose-mid) 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    flex-shrink:0;
+  }
+  .brand-mark h1{font-size:26px;font-weight:600;line-height:1.1;}
+  .brand-sub{
+    color:var(--cafe);
+    font-size:14px;
+    font-style:italic;
+    margin:2px 0 30px 56px;
+  }
+  .field{margin-bottom:18px;}
+  .field label{
+    display:block;
+    font-size:13px;
+    color:var(--cafe);
+    margin-bottom:6px;
+  }
+  .field input{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--border);
+    border-radius:var(--radius-s);
+    background:var(--cream);
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+  }
+  .field input:focus{
+    outline:2px solid var(--rose-mid);
+    outline-offset:1px;
+    background:var(--panel);
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    border:none;
+    border-radius:var(--radius-s);
+    padding:11px 18px;
+    font-family:inherit;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .btn:focus-visible{outline:2px solid var(--cafe-dark);outline-offset:2px;}
+  .btn-primary{
+    background:var(--rose-deep);
+    color:#fff;
+    width:100%;
+    padding:12px;
+    margin-top:6px;
+  }
+  .btn-primary:hover{background:#A45C77;}
+  .btn-ghost{
+    background:transparent;
+    color:var(--cafe);
+    border:1px solid var(--border);
+  }
+  .btn-ghost:hover{background:var(--cream);}
+  .btn-text{
+    background:none;border:none;color:var(--rose-deep);
+    font-size:13px;cursor:pointer;padding:0;font-family:inherit;
+  }
+  .login-foot{
+    text-align:center;
+    margin-top:16px;
+  }
+  .login-note{
+    text-align:center;
+    font-size:12px;
+    color:var(--cafe);
+    margin-top:22px;
+    line-height:1.5;
+  }
+
+  /* ---------- SHELL ---------- */
+  #admin-shell{display:flex;min-height:100vh;}
+  #admin-shell[hidden]{display:none;}
+  .sidebar{
+    width:232px;
+    flex-shrink:0;
+    background:var(--panel);
+    border-right:1px solid var(--border);
+    padding:26px 16px;
+    display:flex;
+    flex-direction:column;
+  }
+  .sidebar .brand-mark{padding-left:2px;margin-bottom:2px;}
+  .sidebar .brand-mark .icon{width:36px;height:36px;font-size:16px;}
+  .sidebar .brand-mark h1{font-size:19px;}
+  .sidebar-sub{
+    font-size:11.5px;
+    color:var(--cafe);
+    font-style:italic;
+    margin:2px 0 26px 48px;
+  }
+  nav.menu{display:flex;flex-direction:column;gap:3px;flex:1;}
+  .menu-item{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:10px 12px;
+    border-radius:var(--radius-s);
+    color:var(--cafe-dark);
+    text-decoration:none;
+    font-size:14px;
+    font-weight:500;
+    cursor:pointer;
+    border:none;
+    background:none;
+    width:100%;
+    text-align:left;
+    font-family:inherit;
+  }
+  .menu-item .em{font-size:16px;width:20px;text-align:center;}
+  .menu-item:hover{background:var(--cream);}
+  .menu-item.active{
+    background:var(--rose);
+    color:var(--cafe-dark);
+  }
+  .menu-item.disabled{color:#C6BAAF;cursor:default;}
+  .menu-item.disabled:hover{background:none;}
+  .sidebar-foot{
+    border-top:1px solid var(--border);
+    padding-top:14px;
+    margin-top:10px;
+    font-size:11.5px;
+    color:var(--cafe);
+  }
+
+  .main{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 32px;
+    background:var(--panel);
+    border-bottom:1px solid var(--border);
+  }
+  .topbar h2{font-size:17px;font-weight:600;}
+  .topbar .path{font-size:12.5px;color:var(--cafe);margin-top:2px;}
+  .user-chip{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:6px 12px 6px 6px;
+    border:1px solid var(--border);
+    border-radius:999px;
+  }
+  .user-chip .avatar{
+    width:30px;height:30px;border-radius:50%;
+    background:linear-gradient(160deg, var(--rose) 0%, var(--rose-mid) 100%);
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;color:var(--cafe-dark);font-weight:600;
+  }
+  .user-chip .name{font-size:13px;font-weight:600;line-height:1.1;}
+  .user-chip .role{font-size:11px;color:var(--cafe);}
+
+  .view{padding:28px 32px 60px;display:none;}
+  .view.active{display:block;}
+
+  /* ---------- DASHBOARD ---------- */
+  .stat-grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:26px;
+  }
+  .stat-card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius-m);
+    padding:18px 20px;
+  }
+  .stat-card .label{font-size:12.5px;color:var(--cafe);margin-bottom:8px;}
+  .stat-card .value{font-family:'Fraunces',serif;font-size:28px;color:var(--cafe-dark);font-weight:600;}
+  .stat-card .value.alert{color:var(--bad);}
+
+  .two-col{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;align-items:start;}
+  .panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius-m);
+    overflow:hidden;
+  }
+  .panel-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 20px;border-bottom:1px solid var(--border);
+  }
+  .panel-head h3{font-size:15px;font-weight:600;}
+  .panel-body{padding:6px 0;}
+  .low-stock-row{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:12px 20px;font-size:13.5px;border-bottom:1px solid var(--border);
+  }
+  .low-stock-row:last-child{border-bottom:none;}
+  .low-stock-row .name{font-weight:600;color:var(--cafe-dark);}
+  .low-stock-row .qty{color:var(--bad);font-size:12.5px;}
+
+  /* ---------- TABLES ---------- */
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{
+    text-align:left;
+    font-size:11.5px;
+    color:var(--cafe);
+    font-weight:600;
+    padding:12px 20px;
+    border-bottom:1px solid var(--border);
+    background:#FBF7F1;
+  }
+  tbody td{
+    padding:13px 20px;
+    border-bottom:1px solid var(--border);
+    color:var(--ink);
+    vertical-align:middle;
+  }
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FDFAF6;}
+
+  .badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:11.5px;
+    font-weight:600;
+  }
+  .badge.good{background:var(--good-bg);color:var(--good);}
+  .badge.warn{background:var(--warn-bg);color:var(--warn);}
+  .badge.bad{background:var(--bad-bg);color:var(--bad);}
+  .badge.info{background:var(--info-bg);color:var(--info);}
+
+  .toolbar{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:14px;margin-bottom:18px;flex-wrap:wrap;
+  }
+  .search-box{
+    display:flex;align-items:center;gap:8px;
+    background:var(--panel);border:1px solid var(--border);
+    border-radius:var(--radius-s);padding:9px 13px;
+    font-size:13.5px;color:var(--cafe);min-width:230px;flex:1;max-width:340px;
+  }
+  .search-box input{border:none;background:none;outline:none;font-family:inherit;font-size:13.5px;color:var(--ink);width:100%;}
+  .filter-chip{
+    padding:8px 14px;border:1px solid var(--border);border-radius:999px;
+    font-size:13px;color:var(--cafe-dark);background:var(--panel);cursor:default;
+  }
+  .filter-chip.active{background:var(--rose);border-color:var(--rose-mid);}
+  .filters{display:flex;gap:8px;flex-wrap:wrap;}
+  .toolbar-right{display:flex;gap:10px;}
+
+  .link-btn{
+    background:none;border:none;color:var(--rose-deep);
+    font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;padding:0;
+  }
+  .row-actions{display:flex;gap:14px;}
+
+  /* ---------- CATALOGO CARDS ---------- */
+  .product-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:18px;
+  }
+  .product-card{
+    background:var(--panel);border:1px solid var(--border);
+    border-radius:var(--radius-m);overflow:hidden;
+  }
+  .product-thumb{
+    height:120px;
+    display:flex;align-items:center;justify-content:center;font-size:40px;
+  }
+  .product-body{padding:14px 16px 16px;}
+  .product-cat{font-size:11.5px;color:var(--cafe);margin-bottom:4px;}
+  .product-name{font-size:15px;font-weight:600;color:var(--cafe-dark);margin-bottom:8px;font-family:'Fraunces',serif;}
+  .product-foot{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;}
+  .product-price{font-weight:700;color:var(--cafe-dark);font-size:15px;}
+  .product-actions{display:flex;gap:8px;}
+  .icon-btn{
+    flex:1;border:1px solid var(--border);background:var(--cream);
+    border-radius:var(--radius-s);padding:7px 0;font-size:12.5px;
+    color:var(--cafe-dark);cursor:pointer;font-family:inherit;font-weight:600;
+  }
+  .icon-btn.danger{color:var(--bad);}
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    position:fixed;inset:0;background:rgba(58,42,35,0.38);
+    display:none;align-items:center;justify-content:center;z-index:50;padding:20px;
+  }
+  .modal-overlay.open{display:flex;}
+  .modal{
+    background:var(--panel);border-radius:var(--radius-m);
+    width:100%;max-width:420px;padding:26px 26px 22px;
+    box-shadow:0 24px 60px -20px rgba(58,42,35,0.4);
+  }
+  .modal h3{font-size:17px;margin-bottom:14px;}
+  .modal .mrow{display:flex;justify-content:space-between;font-size:13.5px;padding:9px 0;border-bottom:1px solid var(--border);}
+  .modal .mrow:last-of-type{border-bottom:none;}
+  .modal .mrow span:first-child{color:var(--cafe);}
+  .modal .mrow span:last-child{font-weight:600;color:var(--cafe-dark);}
+  .modal-close{margin-top:18px;width:100%;}
+
+  .empty-note{
+    padding:36px 20px;text-align:center;color:var(--cafe);font-size:13.5px;
+  }
+
+  @media (max-width: 900px){
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+    .two-col{grid-template-columns:1fr;}
+    .product-grid{grid-template-columns:repeat(2,1fr);}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="brand-mark">
+      <div class="icon">🍰</div>
+      <h1>Dulces Aromas</h1>
+    </div>
+    <p class="brand-sub">Momentos para compartir</p>
+
+    <div class="field">
+      <label for="log-user">Usuario o correo</label>
+      <input id="log-user" type="text" placeholder="admin@dulcesaromas.bo" value="admin@dulcesaromas.bo">
+    </div>
+    <div class="field">
+      <label for="log-pass">Contraseña</label>
+      <input id="log-pass" type="password" placeholder="••••••••" value="••••••••">
+    </div>
+
+    <button class="btn btn-primary" onclick="ingresar()">Iniciar sesión</button>
+    <div class="login-foot">
+      <button class="btn-text" type="button">¿Olvidaste tu contraseña?</button>
+    </div>
+    <p class="login-note">Panel administrativo — Sucre, Bolivia<br>Prototipo de interfaz, proyecto académico de Ingeniería de Software</p>
+  </div>
+</div>
+
+<!-- ================= ADMIN SHELL ================= -->
+<div id="admin-shell" hidden>
+
+  <aside class="sidebar">
+    <div class="brand-mark">
+      <div class="icon">🍰</div>
+      <h1>Dulces Aromas</h1>
+    </div>
+    <p class="sidebar-sub">Momentos para compartir</p>
+
+    <nav class="menu">
+      <button class="menu-item active" data-view="dashboard">
+        <span class="em">🏠</span> Inicio
+      </button>
+      <button class="menu-item" data-view="catalogo">
+        <span class="em">🍰</span> Catálogo
+      </button>
+      <button class="menu-item" data-view="inventario">
+        <span class="em">📦</span> Inventario
+      </button>
+      <button class="menu-item" data-view="pedidos">
+        <span class="em">🛒</span> Pedidos
+      </button>
+      <button class="menu-item" data-view="cobranza">
+        <span class="em">💰</span> Cobranza
+      </button>
+      <button class="menu-item" data-view="distribucion">
+        <span class="em">🚚</span> Distribución
+      </button>
+      <button class="menu-item" data-view="seguridad">
+        <span class="em">🔐</span> Seguridad
+      </button>
+      <button class="menu-item disabled">
+        <span class="em">⚙</span> Configuración
+      </button>
+    </nav>
+
+    <div class="sidebar-foot">
+      Sistema de Comercio Electrónico<br>para pastelería — Sucre, Bolivia
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div>
+        <h2 id="topbar-title">Dulces Aromas — Panel Administrativo</h2>
+        <div class="path" id="topbar-path">Inicio</div>
+      </div>
+      <div class="user-chip">
+        <div class="avatar">A</div>
+        <div>
+          <div class="name">Administrador</div>
+          <div class="role">Acceso total</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== DASHBOARD (CU10) ===== -->
+    <section class="view active" id="view-dashboard">
+      <div class="stat-grid">
+        <div class="stat-card">
+          <div class="label">Pedidos pendientes</div>
+          <div class="value">12</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Ventas del día</div>
+          <div class="value">Bs 850</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Pagos pendientes</div>
+          <div class="value">4</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Productos con bajo stock</div>
+          <div class="value alert">3</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Pedidos recientes</h3>
+            <button class="link-btn" onclick="irA('pedidos')">Ver todos</button>
+          </div>
+          <table>
+            <thead>
+              <tr><th>N.º</th><th>Cliente</th><th>Total</th><th>Estado</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>#1042</td><td>Rosa Mamani</td><td>Bs 180</td><td><span class="badge warn">En preparación</span></td></tr>
+              <tr><td>#1041</td><td>Iván Choque</td><td>Bs 95</td><td><span class="badge good">Pagado</span></td></tr>
+              <tr><td>#1040</td><td>Fátima Rojas</td><td>Bs 220</td><td><span class="badge info">En camino</span></td></tr>
+              <tr><td>#1039</td><td>Luis Poma</td><td>Bs 60</td><td><span class="badge bad">Pendiente de pago</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Bajo stock</h3>
+            <button class="link-btn" onclick="irA('inventario')">Ver inventario</button>
+          </div>
+          <div class="panel-body">
+            <div class="low-stock-row"><span class="name">Chocolate cobertura</span><span class="qty">2 kg restantes</span></div>
+            <div class="low-stock-row"><span class="name">Crema para batir</span><span class="qty">1.5 L restantes</span></div>
+            <div class="low-stock-row"><span class="name">Moldes desechables</span><span class="qty">8 unidades</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CATALOGO (CU02 / CU04) ===== -->
+    <section class="view" id="view-catalogo">
+      <div class="toolbar">
+        <div class="search-box">🔍 <input type="text" placeholder="Buscar producto..."></div>
+        <div class="filters">
+          <span class="filter-chip active">Todas</span>
+          <span class="filter-chip">Tortas</span>
+          <span class="filter-chip">Cupcakes</span>
+          <span class="filter-chip">Postres fríos</span>
+          <span class="filter-chip">Galletas</span>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn btn-primary" style="width:auto;margin:0;">+ Agregar producto</button>
+        </div>
+      </div>
+
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-thumb" style="background:#F3DEDE;">🍫</div>
+          <div class="product-body">
+            <div class="product-cat">Tortas</div>
+            <div class="product-name">Torta de chocolate</div>
+            <div class="product-foot"><span class="product-price">Bs 120</span><span class="badge good">Disponible</span></div>
+            <div class="product-actions"><button class="icon-btn">Editar</button><button class="icon-btn danger">Desactivar</button></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-thumb" style="background:#F7EFD8;">🍰</div>
+          <div class="product-body">
+            <div class="product-cat">Tortas</div>
+            <div class="product-name">Torta de vainilla</div>
+            <div class="product-foot"><span class="product-price">Bs 110</span><span class="badge good">Disponible</span></div>
+            <div class="product-actions"><button class="icon-btn">Editar</button><button class="icon-btn danger">Desactivar</button></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-thumb" style="background:#F6E2E8;">🧁</div>
+          <div class="product-body">
+            <div class="product-cat">Cupcakes</div>
+            <div class="product-name">Cupcakes surtidos</div>
+            <div class="product-foot"><span class="product-price">Bs 12 c/u</span><span class="badge good">Disponible</span></div>
+            <div class="product-actions"><button class="icon-btn">Editar</button><button class="icon-btn danger">Desactivar</button></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-thumb" style="background:#F4ECD8;">🍮</div>
+          <div class="product-body">
+            <div class="product-cat">Postres fríos</div>
+            <div class="product-name">Cheesecake</div>
+            <div class="product-foot"><span class="product-price">Bs 130</span><span class="badge warn">Últimas unidades</span></div>
+            <div class="product-actions"><button class="icon-btn">Editar</button><button class="icon-btn danger">Desactivar</button></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-thumb" style="background:#F1E4CF;">🍪</div>
+          <div class="product-body">
+            <div class="product-cat">Galletas</div>
+            <div class="product-name">Galletas decoradas</div>
+            <div class="product-foot"><span class="product-price">Bs 8 c/u</span><span class="badge good">Disponible</span></div>
+            <div class="product-actions"><button class="icon-btn">Editar</button><button class="icon-btn danger">Desactivar</button></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-thumb" style="background:#EBDCCB;">🟫</div>
+          <div class="product-body">
+            <div class="product-cat">Postres fríos</div>
+            <div class="product-name">Brownies</div>
+            <div class="product-foot"><span class="product-price">Bs 10 c/u</span><span class="badge bad">Agotado</span></div>
+            <div class="product-actions"><button class="icon-btn">Editar</button><button class="icon-btn danger">Desactivar</button></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== INVENTARIO (CU03) ===== -->
+    <section class="view" id="view-inventario">
+      <div class="toolbar">
+        <div class="search-box">🔍 <input type="text" placeholder="Buscar insumo..."></div>
+        <div class="toolbar-right">
+          <button class="btn btn-ghost">Registrar salida</button>
+          <button class="btn btn-primary" style="width:auto;margin:0;">+ Registrar entrada</button>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>Insumo</th><th>Stock actual</th><th>Stock mínimo</th><th>Estado</th><th>Última entrada</th><th>Última salida</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Harina</td><td>38 kg</td><td>15 kg</td><td><span class="badge good">Normal</span></td><td>05/09/2026</td><td>09/09/2026</td></tr>
+            <tr><td>Azúcar</td><td>22 kg</td><td>10 kg</td><td><span class="badge good">Normal</span></td><td>04/09/2026</td><td>08/09/2026</td></tr>
+            <tr><td>Chocolate cobertura</td><td>2 kg</td><td>5 kg</td><td><span class="badge bad">Bajo stock</span></td><td>28/08/2026</td><td>09/09/2026</td></tr>
+            <tr><td>Huevos</td><td>9 docenas</td><td>4 docenas</td><td><span class="badge good">Normal</span></td><td>07/09/2026</td><td>09/09/2026</td></tr>
+            <tr><td>Mantequilla</td><td>6 kg</td><td>6 kg</td><td><span class="badge warn">Al límite</span></td><td>02/09/2026</td><td>09/09/2026</td></tr>
+            <tr><td>Crema para batir</td><td>1.5 L</td><td>4 L</td><td><span class="badge bad">Bajo stock</span></td><td>30/08/2026</td><td>08/09/2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== PEDIDOS (CU05 / CU10) ===== -->
+    <section class="view" id="view-pedidos">
+      <div class="toolbar">
+        <div class="search-box">🔍 <input type="text" placeholder="Buscar por cliente o N.º de pedido..."></div>
+        <div class="filters">
+          <span class="filter-chip active">Todos</span>
+          <span class="filter-chip">Pendientes</span>
+          <span class="filter-chip">En preparación</span>
+          <span class="filter-chip">Entregados</span>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>N.º pedido</th><th>Cliente</th><th>Fecha</th><th>Total</th><th>Entrega</th><th>Estado</th><th></th></tr>
+          </thead>
+          <tbody id="pedidos-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== COBRANZA (CU06 / CU07) ===== -->
+    <section class="view" id="view-cobranza">
+      <div class="toolbar">
+        <div class="search-box">🔍 <input type="text" placeholder="Buscar por cliente o N.º de pedido..."></div>
+        <div class="filters">
+          <span class="filter-chip active">Todos</span>
+          <span class="filter-chip">En verificación</span>
+          <span class="filter-chip">Pagados</span>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>N.º pedido</th><th>Cliente</th><th>Monto</th><th>Método</th><th>Estado</th><th>Fecha</th><th></th></tr>
+          </thead>
+          <tbody id="cobranza-body"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== DISTRIBUCION (CU08) ===== -->
+    <section class="view" id="view-distribucion">
+      <div class="toolbar">
+        <div class="search-box">🔍 <input type="text" placeholder="Buscar por cliente o repartidor..."></div>
+        <div class="filters">
+          <span class="filter-chip active">Todos</span>
+          <span class="filter-chip">Recojo en tienda</span>
+          <span class="filter-chip">Delivery</span>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>N.º pedido</th><th>Cliente</th><th>Dirección</th><th>Tipo de entrega</th><th>Repartidor</th><th>Estado</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>#1042</td><td>Rosa Mamani</td><td>Calle Bolívar 245</td><td>Delivery</td><td>Marco Quispe</td><td><span class="badge info">En camino</span></td></tr>
+            <tr><td>#1040</td><td>Fátima Rojas</td><td>Av. Hernando Siles 810</td><td>Delivery</td><td>Marco Quispe</td><td><span class="badge warn">Preparando</span></td></tr>
+            <tr><td>#1038</td><td>Jorge Vega</td><td>Sucursal centro</td><td>Recojo en tienda</td><td>—</td><td><span class="badge good">Listo</span></td></tr>
+            <tr><td>#1035</td><td>Carla Fernández</td><td>Calle Junín 512</td><td>Delivery</td><td>Elena Torrez</td><td><span class="badge good">Entregado</span></td></tr>
+            <tr><td>#1033</td><td>Pedro Alba</td><td>Sucursal centro</td><td>Recojo en tienda</td><td>—</td><td><span class="badge bad">Pendiente</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== SEGURIDAD (CU09 / CU01) ===== -->
+    <section class="view" id="view-seguridad">
+      <div class="toolbar">
+        <div class="search-box">🔍 <input type="text" placeholder="Buscar usuario..."></div>
+        <div class="toolbar-right">
+          <button class="btn btn-primary" style="width:auto;margin:0;">+ Agregar usuario</button>
+        </div>
+      </div>
+      <div class="panel">
+        <table>
+          <thead>
+            <tr><th>Nombre</th><th>Correo</th><th>Rol</th><th>Estado</th><th>Último acceso</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Verónica Salazar</td><td>veronica@dulcesaromas.bo</td><td>Administrador</td>
+              <td><span class="badge good">Activo</span></td><td>09/09/2026 · 18:40</td>
+              <td><div class="row-actions"><button class="link-btn">Editar</button><button class="link-btn">Permisos</button></div></td>
+            </tr>
+            <tr>
+              <td>Diego Aponte</td><td>diego@dulcesaromas.bo</td><td>Vendedor</td>
+              <td><span class="badge good">Activo</span></td><td>09/09/2026 · 15:10</td>
+              <td><div class="row-actions"><button class="link-btn">Editar</button><button class="link-btn">Permisos</button></div></td>
+            </tr>
+            <tr>
+              <td>Marco Quispe</td><td>marco@dulcesaromas.bo</td><td>Repartidor</td>
+              <td><span class="badge good">Activo</span></td><td>09/09/2026 · 12:05</td>
+              <td><div class="row-actions"><button class="link-btn">Editar</button><button class="link-btn">Permisos</button></div></td>
+            </tr>
+            <tr>
+              <td>Elena Torrez</td><td>elena@dulcesaromas.bo</td><td>Repartidor</td>
+              <td><span class="badge warn">Inactivo</span></td><td>02/09/2026 · 09:22</td>
+              <td><div class="row-actions"><button class="link-btn">Editar</button><button class="link-btn">Permisos</button></div></td>
+            </tr>
+            <tr>
+              <td>Ivonne Rojas</td><td>ivonne@dulcesaromas.bo</td><td>Vendedor</td>
+              <td><span class="badge bad">Desactivado</span></td><td>21/08/2026 · 17:00</td>
+              <td><div class="row-actions"><button class="link-btn">Editar</button><button class="link-btn">Permisos</button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<!-- ===== MODAL genérico (detalle / comprobante) ===== -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title">Detalle</h3>
+    <div id="modal-body"></div>
+    <button class="btn btn-ghost modal-close" onclick="cerrarModal()">Cerrar</button>
+  </div>
+</div>
+
+<script>
+  // ---------- datos de ejemplo ----------
+  var pedidos = [
+    {n:"#1042", cliente:"Rosa Mamani", fecha:"09/09/2026", total:"Bs 180", entrega:"Delivery", estado:"En preparación", clase:"warn",
+      detalle:{"Productos":"1 Torta de chocolate, 6 cupcakes","Método de entrega":"Delivery — Calle Bolívar 245","Método de pago":"QR","Notas":"Entregar antes de las 18:00"}},
+    {n:"#1041", cliente:"Iván Choque", fecha:"09/09/2026", total:"Bs 95", entrega:"Recojo en tienda", estado:"Pagado", clase:"good",
+      detalle:{"Productos":"1 Cheesecake individual","Método de entrega":"Recojo en tienda","Método de pago":"Transferencia","Notas":"—"}},
+    {n:"#1040", cliente:"Fátima Rojas", fecha:"08/09/2026", total:"Bs 220", entrega:"Delivery", estado:"En camino", clase:"info",
+      detalle:{"Productos":"1 Torta de vainilla, galletas decoradas x12","Método de entrega":"Delivery — Av. Hernando Siles 810","Método de pago":"QR","Notas":"Cliente frecuente"}},
+    {n:"#1039", cliente:"Luis Poma", fecha:"08/09/2026", total:"Bs 60", entrega:"Recojo en tienda", estado:"Pendiente de pago", clase:"bad",
+      detalle:{"Productos":"Brownies x6","Método de entrega":"Recojo en tienda","Método de pago":"Pendiente","Notas":"Esperando comprobante"}},
+    {n:"#1038", cliente:"Jorge Vega", fecha:"07/09/2026", total:"Bs 130", entrega:"Recojo en tienda", estado:"Listo", clase:"good",
+      detalle:{"Productos":"1 Cheesecake","Método de entrega":"Recojo en tienda","Método de pago":"Depósito","Notas":"—"}},
+    {n:"#1037", cliente:"Carla Fernández", fecha:"07/09/2026", total:"Bs 150", entrega:"Delivery", estado:"Pago en verificación", clase:"warn",
+      detalle:{"Productos":"1 Torta de chocolate","Método de entrega":"Delivery — Calle Junín 512","Método de pago":"Transferencia","Notas":"Verificar comprobante adjunto"}},
+    {n:"#1035", cliente:"Pedro Alba", fecha:"05/09/2026", total:"Bs 88", entrega:"Delivery", estado:"Entregado", clase:"good",
+      detalle:{"Productos":"Cupcakes surtidos x8","Método de entrega":"Delivery — zona Aranjuez","Método de pago":"QR","Notas":"Entregado sin novedad"}}
+  ];
+
+  var cobranzas = [
+    {n:"#1039", cliente:"Luis Poma", monto:"Bs 60", metodo:"—", estado:"Pendiente de pago", clase:"bad", fecha:"08/09/2026",
+      detalle:{"Pedido":"#1039","Monto":"Bs 60","Método":"No registrado","Estado":"Pendiente de pago"}},
+    {n:"#1037", cliente:"Carla Fernández", monto:"Bs 150", metodo:"Transferencia", estado:"En verificación", clase:"warn", fecha:"07/09/2026",
+      detalle:{"Pedido":"#1037","Monto":"Bs 150","Método":"Transferencia bancaria","Referencia":"TRF-88213","Estado":"En verificación"}},
+    {n:"#1042", cliente:"Rosa Mamani", monto:"Bs 180", metodo:"QR", estado:"Pagado", clase:"good", fecha:"09/09/2026",
+      detalle:{"Pedido":"#1042","Monto":"Bs 180","Método":"Pago QR","Estado":"Pagado","Verificado por":"Verónica Salazar"}},
+    {n:"#1034", cliente:"Hugo Rocha", monto:"Bs 70", metodo:"Depósito", estado:"Rechazado", clase:"bad", fecha:"04/09/2026",
+      detalle:{"Pedido":"#1034","Monto":"Bs 70","Método":"Depósito bancario","Motivo de rechazo":"Comprobante ilegible","Estado":"Rechazado"}},
+    {n:"#1030", cliente:"Ana Luz Mendoza", monto:"Bs 210", metodo:"QR", estado:"Pago registrado", clase:"info", fecha:"03/09/2026",
+      detalle:{"Pedido":"#1030","Monto":"Bs 210","Método":"Pago QR","Estado":"Pago registrado, pendiente de aprobación"}}
+  ];
+
+  function renderPedidos(){
+    var body = document.getElementById('pedidos-body');
+    body.innerHTML = pedidos.map(function(p){
+      return '<tr><td>'+p.n+'</td><td>'+p.cliente+'</td><td>'+p.fecha+'</td><td>'+p.total+'</td><td>'+p.entrega+'</td>'+
+        '<td><span class="badge '+p.clase+'">'+p.estado+'</span></td>'+
+        '<td><button class="link-btn" onclick="verDetallePedido(\''+p.n+'\')">Ver detalle</button></td></tr>';
+    }).join('');
+  }
+
+  function renderCobranza(){
+    var body = document.getElementById('cobranza-body');
+    body.innerHTML = cobranzas.map(function(c){
+      var acciones = '<button class="link-btn" onclick="verComprobante(\''+c.n+'\')">Ver comprobante</button>';
+      if(c.estado === 'En verificación' || c.estado === 'Pago registrado'){
+        acciones += ' &nbsp;<button class="link-btn" style="color:var(--good);" onclick="verComprobante(\''+c.n+'\')">Aprobar</button>'+
+                    ' &nbsp;<button class="link-btn" style="color:var(--bad);" onclick="verComprobante(\''+c.n+'\')">Rechazar</button>';
+      }
+      return '<tr><td>'+c.n+'</td><td>'+c.cliente+'</td><td>'+c.monto+'</td><td>'+c.metodo+'</td>'+
+        '<td><span class="badge '+c.clase+'">'+c.estado+'</span></td><td>'+c.fecha+'</td>'+
+        '<td><div class="row-actions">'+acciones+'</div></td></tr>';
+    }).join('');
+  }
+
+  function verDetallePedido(n){
+    var p = pedidos.filter(function(x){return x.n===n;})[0];
+    abrirModal('Detalle del pedido '+p.n, p.detalle);
+  }
+  function verComprobante(n){
+    var c = cobranzas.filter(function(x){return x.n===n;})[0];
+    abrirModal('Comprobante — pedido '+c.n, c.detalle);
+  }
+  function abrirModal(titulo, datos){
+    document.getElementById('modal-title').textContent = titulo;
+    var html = '';
+    for(var k in datos){
+      html += '<div class="mrow"><span>'+k+'</span><span>'+datos[k]+'</span></div>';
+    }
+    document.getElementById('modal-body').innerHTML = html;
+    document.getElementById('modal-overlay').classList.add('open');
+  }
+  function cerrarModal(){
+    document.getElementById('modal-overlay').classList.remove('open');
+  }
+
+  // ---------- navegación ----------
+  var titles = {
+    dashboard:["Inicio","Panel principal"],
+    catalogo:["Catálogo","Gestión de productos"],
+    inventario:["Inventario","Gestión de insumos y stock"],
+    pedidos:["Pedidos","Gestión de pedidos y ventas"],
+    cobranza:["Cobranza","Verificación y registro de pagos"],
+    distribucion:["Distribución","Seguimiento de entregas"],
+    seguridad:["Seguridad","Usuarios, roles y permisos"]
+  };
+
+  function irA(view){
+    document.querySelectorAll('.menu-item[data-view]').forEach(function(el){
+      el.classList.toggle('active', el.getAttribute('data-view') === view);
+    });
+    document.querySelectorAll('.view').forEach(function(el){
+      el.classList.toggle('active', el.id === 'view-'+view);
+    });
+    document.getElementById('topbar-title').textContent = 'Dulces Aromas — Panel Administrativo';
+    document.getElementById('topbar-path').textContent = titles[view][1];
+  }
+
+  document.querySelectorAll('.menu-item[data-view]').forEach(function(el){
+    el.addEventListener('click', function(){ irA(el.getAttribute('data-view')); });
+  });
+
+  document.getElementById('modal-overlay').addEventListener('click', function(e){
+    if(e.target === this){ cerrarModal(); }
+  });
+
+  function ingresar(){
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('admin-shell').hidden = false;
+  }
+
+  renderPedidos();
+  renderCobranza();
+</script>
+</body>
+</html>

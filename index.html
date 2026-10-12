@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dulces Aromas</title>
+<meta name="description" content="Dulces Aromas — Sistema de comercio electrónico para una pastelería. Proyecto de SIS324 Ingeniería de Software, USFX 2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#FBF4EC;
+    --bg-alt:#F6EADD;
+    --panel:#FFFFFF;
+    --rose:#EFC3CE;
+    --rose-mid:#E19DB0;
+    --rose-deep:#B96C86;
+    --cafe:#8A6C5C;
+    --cafe-dark:#4A342C;
+    --ink:#3A2A23;
+    --muted:#7A665B;
+    --border:#EADDD0;
+    --good:#7A9E7E;
+    --bad:#C1685F;
+    --shadow:0 18px 40px -22px rgba(74,52,44,.35);
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#1E1714; --bg-alt:#261D19; --panel:#2D231E;
+      --rose:#5A3542; --rose-mid:#C9849A; --rose-deep:#E4A6BA;
+      --cafe:#C7AE9F; --cafe-dark:#F3E4D8; --ink:#EDE0D6; --muted:#B39E92;
+      --border:#41332C; --good:#9CC3A0; --bad:#E49188;
+      --shadow:0 18px 40px -22px rgba(0,0,0,.7);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#1E1714; --bg-alt:#261D19; --panel:#2D231E;
+    --rose:#5A3542; --rose-mid:#C9849A; --rose-deep:#E4A6BA;
+    --cafe:#C7AE9F; --cafe-dark:#F3E4D8; --ink:#EDE0D6; --muted:#B39E92;
+    --border:#41332C; --good:#9CC3A0; --bad:#E49188;
+    --shadow:0 18px 40px -22px rgba(0,0,0,.7);
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Work Sans',sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;overflow-x:hidden}
+  h1,h2,h3{font-family:'Fraunces',serif;color:var(--cafe-dark);margin:0;line-height:1.15}
+  a{color:inherit}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  section{padding:88px 0}
+  .alt{background:var(--bg-alt)}
+  .eyebrow{font-size:13px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--rose-deep);margin:0 0 10px}
+  .sec-title{font-size:clamp(28px,4vw,40px);font-weight:600;margin-bottom:14px}
+  .sec-lead{color:var(--muted);max-width:640px;margin:0 0 44px;font-size:17px}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+  .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .brand .dot{width:34px;height:34px;border-radius:50%;background:linear-gradient(160deg,var(--rose),var(--rose-mid));display:grid;place-items:center}
+  .brand span{font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--cafe-dark)}
+  .links{display:flex;gap:26px;font-size:14px;font-weight:500}
+  .links a{text-decoration:none;color:var(--cafe)}
+  .links a:hover{color:var(--rose-deep)}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;font-family:inherit;transition:transform .15s}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:var(--cafe-dark);color:var(--bg)}
+  .btn-ghost{border-color:var(--border);color:var(--cafe-dark);background:var(--panel)}
+  .btn-sm{padding:8px 16px;font-size:14px}
+  .theme-btn{background:none;border:1px solid var(--border);border-radius:50%;width:36px;height:36px;cursor:pointer;color:var(--cafe);display:grid;place-items:center}
+  .nav-right{display:flex;align-items:center;gap:10px}
+
+  /* HERO */
+  .hero{padding:96px 0 104px;background:
+      radial-gradient(circle at 12% 18%, color-mix(in srgb,var(--rose) 70%,transparent) 0%, transparent 42%),
+      radial-gradient(circle at 88% 82%, color-mix(in srgb,var(--cafe) 22%,transparent) 0%, transparent 48%);}
+  .hero .wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+  .hero h1{font-size:clamp(42px,6.4vw,74px);font-weight:700;letter-spacing:-.02em}
+  .hero h1 em{font-weight:400;color:var(--rose-deep)}
+  .hero p.lead{font-size:19px;color:var(--muted);margin:22px 0 32px;max-width:520px}
+  .hero .cta{display:flex;gap:12px;flex-wrap:wrap}
+  .tagline{font-family:'Fraunces',serif;font-style:italic;color:var(--cafe);font-size:20px;margin-bottom:12px}
+  .hero-card{background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:26px;box-shadow:var(--shadow)}
+  .hero-card h3{font-size:18px;margin-bottom:4px}
+  .hero-card .sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+  .order-line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--border);font-size:14px}
+  .order-line small{display:block;color:var(--muted);font-size:12px}
+  .order-total{display:flex;justify-content:space-between;font-weight:700;padding-top:14px;color:var(--cafe-dark)}
+  .pill{display:inline-block;font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--rose) 60%,transparent);color:var(--cafe-dark)}
+  .hero-card .row{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+
+  /* PROBLEM */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:28px}
+  .card h3{font-size:21px;margin-bottom:10px}
+  .card p{margin:0;color:var(--muted)}
+  .card.problem{border-top:4px solid var(--bad)}
+  .card.solution{border-top:4px solid var(--good)}
+  .card ul{margin:12px 0 0;padding-left:18px;color:var(--muted)}
+
+  /* MODULES */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+  .mod{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:border-color .2s, transform .2s}
+  .mod:hover{border-color:var(--rose-mid);transform:translateY(-2px)}
+  .mod .ic{width:42px;height:42px;border-radius:12px;background:color-mix(in srgb,var(--rose) 55%,transparent);display:grid;place-items:center;margin-bottom:14px;color:var(--rose-deep)}
+  .mod h3{font-size:18px;margin-bottom:8px}
+  .mod p{margin:0;font-size:14.5px;color:var(--muted)}
+
+  /* FLOW */
+  .flow{display:flex;flex-wrap:wrap;gap:0;counter-reset:st;position:relative}
+  .step{flex:1 1 120px;text-align:center;position:relative;padding:0 6px 8px}
+  .step::before{counter-increment:st;content:counter(st);display:grid;place-items:center;width:44px;height:44px;margin:0 auto 12px;border-radius:50%;background:var(--panel);border:2px solid var(--rose-mid);font-family:'Fraunces',serif;font-weight:700;color:var(--cafe-dark);position:relative;z-index:1}
+  .step::after{content:"";position:absolute;top:22px;left:50%;width:100%;height:2px;background:var(--border)}
+  .step:last-child::after{display:none}
+  .step:last-child::before{background:var(--cafe-dark);color:var(--bg);border-color:var(--cafe-dark)}
+  .step b{display:block;font-size:14px;color:var(--cafe-dark)}
+  .step span{font-size:12.5px;color:var(--muted)}
+  .modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:48px}
+  .mode{display:flex;gap:16px;align-items:flex-start}
+  .mode .tag{flex-shrink:0;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:6px 10px;border-radius:8px;background:var(--cafe-dark);color:var(--bg)}
+
+  /* ACTORS */
+  .actors{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+  .actor{padding:20px;border-radius:var(--radius);border:1px solid var(--border);background:var(--panel)}
+  .actor .av{width:40px;height:40px;border-radius:50%;background:linear-gradient(160deg,var(--rose),var(--rose-mid));display:grid;place-items:center;font-family:'Fraunces',serif;font-weight:700;color:var(--cafe-dark);margin-bottom:12px}
+  .actor h3{font-size:17px;margin-bottom:6px}
+  .actor p{margin:0;font-size:14px;color:var(--muted)}
+
+  /* USE CASES */
+  .cu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+  details.cu{background:var(--panel);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+  details.cu summary{list-style:none;cursor:pointer;padding:16px 18px;display:flex;gap:14px;align-items:center}
+  details.cu summary::-webkit-details-marker{display:none}
+  .cu-id{font-family:'Fraunces',serif;font-weight:700;color:var(--rose-deep);font-size:15px;min-width:42px}
+  .cu-name{font-weight:600;color:var(--cafe-dark);flex:1;font-size:15px}
+  .cu-actor{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+  .chev{transition:transform .2s;color:var(--cafe)}
+  details[open] .chev{transform:rotate(180deg)}
+  .cu-body{padding:0 18px 18px 74px;font-size:14px;color:var(--muted)}
+  .cu-body p{margin:0 0 8px}
+  .cu-body ol{margin:6px 0 0;padding-left:18px}
+  .cu-body strong{color:var(--cafe-dark)}
+
+  /* REQUIREMENTS */
+  .tabs{display:flex;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+  .tab{padding:9px 18px;border-radius:999px;border:1px solid var(--border);background:var(--panel);cursor:pointer;font-family:inherit;font-weight:600;font-size:14px;color:var(--cafe)}
+  .tab[aria-selected="true"]{background:var(--cafe-dark);color:var(--bg);border-color:var(--cafe-dark)}
+  .req-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px 26px;margin:0;padding:0;list-style:none}
+  .req-list li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:14.5px}
+  .req-list li b{font-family:'Fraunces',serif;color:var(--rose-deep);min-width:52px}
+  [hidden]{display:none!important}
+
+  /* SCOPE */
+  .scope li{margin-bottom:6px}
+  .card.out{border-top:4px solid var(--border)}
+  .card.in{border-top:4px solid var(--rose-mid)}
+
+  /* OBJECTIVE */
+  .objective{background:var(--cafe-dark);color:var(--bg);border-radius:22px;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px}
+  .objective h2{color:var(--bg);font-size:clamp(26px,3.4vw,34px);margin-bottom:14px}
+  .objective p{opacity:.85;margin:0}
+  .objective ul{margin:0;padding-left:18px;opacity:.9;font-size:15px}
+  .objective li{margin-bottom:6px}
+  .objective .eyebrow{color:var(--rose)}
+  @media (prefers-color-scheme: dark){ :root:not([data-theme="light"]) .objective{background:var(--panel);color:var(--ink);border:1px solid var(--border)} :root:not([data-theme="light"]) .objective h2{color:var(--cafe-dark)} }
+  :root[data-theme="dark"] .objective{background:var(--panel);color:var(--ink);border:1px solid var(--border)}
+  :root[data-theme="dark"] .objective h2{color:var(--cafe-dark)}
+
+  /* TEAM */
+  .team{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .member{text-align:center;padding:28px 18px}
+  .member .av{width:64px;height:64px;font-size:22px;margin:0 auto 14px}
+  .member h3{font-size:17px}
+  .member p{font-size:13px;color:var(--muted);margin:4px 0 0}
+
+  footer{padding:40px 0;border-top:1px solid var(--border);font-size:14px;color:var(--muted)}
+  footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  @media (max-width:880px){
+    .links{display:none}
+    .hero .wrap,.two,.objective{grid-template-columns:1fr}
+    .hero{padding:64px 0 72px}
+    section{padding:64px 0}
+    .objective{padding:32px 24px}
+    .flow{flex-direction:column;gap:6px}
+    .step{display:flex;align-items:center;gap:14px;text-align:left;padding:0}
+    .step::before{margin:0}
+    .step::after{top:44px;left:21px;width:2px;height:calc(100% - 38px)}
+    .step span{display:block}
+    .cu-body{padding-left:18px}
+  }
+  @media (max-width:520px){
+    .wrap{padding:0 16px}
+    .nav-right .btn{display:none}
+    .req-list{grid-template-columns:1fr}
+    .cu-grid{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#inicio">
+      <span class="dot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#4A342C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h16M5 20v-7h14v7M7 13V9h10v4M12 9V5"/><circle cx="12" cy="4" r="1"/></svg></span>
+      <span>Dulces Aromas</span>
+    </a>
+    <div class="links">
+      <a href="#modulos">Módulos</a>
+      <a href="#flujo">Flujo</a>
+      <a href="#casos">Casos de uso</a>
+      <a href="#requisitos">Requisitos</a>
+      <a href="#equipo">Equipo</a>
+    </div>
+    <div class="nav-right">
+      <button class="theme-btn" id="theme" aria-label="Cambiar tema">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
+      <a class="btn btn-primary btn-sm" href="dulces-aromas.html">Ver prototipo</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="inicio">
+  <div class="wrap">
+    <div>
+      <p class="tagline">“Momentos para compartir”</p>
+      <h1>La pastelería, <em>a un clic</em> de tu mesa.</h1>
+      <p class="lead">Dulces Aromas es una aplicación web de comercio electrónico que integra catálogo, inventario, pedidos, cobranza y distribución de una pastelería en una sola plataforma.</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="dulces-aromas.html">Explorar el panel administrativo →</a>
+        <a class="btn btn-ghost" href="#modulos">Conocer el sistema</a>
+      </div>
+    </div>
+    <div class="hero-card" aria-label="Ejemplo de pedido">
+      <h3>Pedido #0148</h3>
+      <div class="sub">Cliente · Recojo en tienda</div>
+      <div class="order-line"><div>Torta de chocolate<small>Mediana · relleno dulce de leche · “Feliz cumple, Ana”</small></div><div>Bs 180</div></div>
+      <div class="order-line"><div>Cupcakes de vainilla ×6<small>Decoración rosa</small></div><div>Bs 54</div></div>
+      <div class="order-line"><div>Galletas de mantequilla<small>Caja de 12</small></div><div>Bs 35</div></div>
+      <div class="order-total"><span>Total</span><span>Bs 269</span></div>
+      <div class="row"><span class="pill">Pago QR</span><span class="pill">Pago en verificación</span></div>
+    </div>
+  </div>
+</header>
+
+<!-- PROBLEMA / SOLUCIÓN -->
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow">Posicionamiento</p>
+    <h2 class="sec-title">De los mensajes dispersos a un solo sistema</h2>
+    <p class="sec-lead">Muchas pastelerías reciben pedidos por llamadas, mensajes y redes sociales. Dulces Aromas centraliza todo el proceso de venta.</p>
+    <div class="two">
+      <div class="card problem">
+        <h3>El problema</h3>
+        <p>La falta de un sistema integrado provoca:</p>
+        <ul>
+          <li>Desorganización en los pedidos.</li>
+          <li>Desconocimiento de la disponibilidad real de productos.</li>
+          <li>Problemas en el control de pagos.</li>
+          <li>Poca visibilidad sobre el proceso de entrega.</li>
+        </ul>
+      </div>
+      <div class="card solution">
+        <h3>La solución</h3>
+        <p>Una plataforma web que:</p>
+        <ul>
+          <li>Permite al cliente consultar, personalizar y pedir en línea.</li>
+          <li>Controla el inventario y evita ofertar productos agotados.</li>
+          <li>Registra y verifica pagos por QR o depósito/transferencia.</li>
+          <li>Gestiona la entrega: recojo en tienda o delivery.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<section id="modulos">
+  <div class="wrap">
+    <p class="eyebrow">Características del producto</p>
+    <h2 class="sec-title">Ocho módulos, un solo flujo</h2>
+    <p class="sec-lead">Cada módulo cubre una etapa del proceso principal de un e-commerce: catálogo, inventario, compra, pedido, cobranza y distribución.</p>
+    <div class="grid">
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></div><h3>Usuarios y roles</h3><p>Registro, inicio de sesión, perfil y asignación de roles y permisos.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></div><h3>Catálogo</h3><p>Tortas, pasteles, cupcakes, galletas, postres y productos especiales con precio, imagen y disponibilidad.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 8 12 3 3 8v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg></div><h3>Almacén e inventario</h3><p>Entradas, salidas, existencias y alertas de stock bajo.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></div><h3>Personalización</h3><p>Tamaño, sabor, relleno, decoración y mensaje personalizado.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="20" r="1.5"/><circle cx="18" cy="20" r="1.5"/><path d="M2 3h3l3 12h11l2-8H6"/></svg></div><h3>Carrito y pedidos</h3><p>Agregar, modificar y eliminar productos, ver el total, confirmar y consultar el historial.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/></svg></div><h3>Cobranza y pagos</h3><p>Pago por QR o depósito/transferencia con registro de comprobante y verificación.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6h13v10H1zM14 10h4l3 3v3h-7"/><circle cx="5" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg></div><h3>Distribución</h3><p>Recojo en tienda o delivery con dirección, horario, costo y estado de entrega.</p></div>
+      <div class="mod"><div class="ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-6"/></svg></div><h3>Administración y reportes</h3><p>Gestión de productos, categorías, pedidos, pagos, inventario y ventas.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FLUJO -->
+<section class="alt" id="flujo">
+  <div class="wrap">
+    <p class="eyebrow">Ciclo de vida del pedido</p>
+    <h2 class="sec-title">Del carrito a la mesa</h2>
+    <p class="sec-lead">Cada pedido avanza por estados claros que el cliente y el personal pueden seguir en tiempo real.</p>
+    <div class="flow">
+      <div class="step"><div><b>Pendiente de pago</b><span>Pedido registrado</span></div></div>
+      <div class="step"><div><b>Pago en verificación</b><span>Comprobante enviado</span></div></div>
+      <div class="step"><div><b>Pagado</b><span>Cobranza aprueba</span></div></div>
+      <div class="step"><div><b>En preparación</b><span>Producción</span></div></div>
+      <div class="step"><div><b>Listo</b><span>Para recojo o envío</span></div></div>
+      <div class="step"><div><b>En camino</b><span>Solo delivery</span></div></div>
+      <div class="step"><div><b>Entregado</b><span>Pedido concluido</span></div></div>
+    </div>
+    <div class="modes">
+      <div class="card mode"><span class="tag">QR</span><div><h3 style="font-size:17px;margin-bottom:4px">Pago mediante QR</h3><p>El sistema muestra el código QR del negocio para realizar el pago.</p></div></div>
+      <div class="card mode"><span class="tag">Banco</span><div><h3 style="font-size:17px;margin-bottom:4px">Depósito o transferencia</h3><p>Se muestran los datos de pago y el cliente registra la referencia o comprobante.</p></div></div>
+      <div class="card mode"><span class="tag">Tienda</span><div><h3 style="font-size:17px;margin-bottom:4px">Recojo en tienda</h3><p>El cliente recoge su pedido cuando el estado cambia a “Listo”.</p></div></div>
+      <div class="card mode"><span class="tag">Delivery</span><div><h3 style="font-size:17px;margin-bottom:4px">Entrega a domicilio</h3><p>Se registra dirección, horario solicitado y costo de entrega.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ACTORES -->
+<section id="actores">
+  <div class="wrap">
+    <p class="eyebrow">Partes interesadas</p>
+    <h2 class="sec-title">¿Quién usa Dulces Aromas?</h2>
+    <p class="sec-lead">Cada actor accede únicamente a las funciones permitidas por su rol.</p>
+    <div class="actors">
+      <div class="actor"><div class="av">C</div><h3>Cliente</h3><p>Consulta productos, realiza pedidos, elige la modalidad de entrega y registra pagos.</p></div>
+      <div class="actor"><div class="av">A</div><h3>Administrador</h3><p>Administra productos, inventario, usuarios, pedidos, pagos y reportes.</p></div>
+      <div class="actor"><div class="av">I</div><h3>Encargado de inventario</h3><p>Registra y controla los movimientos de existencias.</p></div>
+      <div class="actor"><div class="av">$</div><h3>Encargado de cobranza</h3><p>Revisa y verifica los pagos registrados.</p></div>
+      <div class="actor"><div class="av">D</div><h3>Encargado de distribución</h3><p>Gestiona la entrega o el recojo de los pedidos.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS DE USO -->
+<section class="alt" id="casos">
+  <div class="wrap">
+    <p class="eyebrow">Análisis</p>
+    <h2 class="sec-title">Casos de uso</h2>
+    <p class="sec-lead">Diez casos de uso de prioridad alta describen las interacciones principales entre los actores y el sistema. Toca uno para ver su secuencia normal.</p>
+    <div class="cu-grid" id="cu-grid"></div>
+  </div>
+</section>
+
+<!-- REQUISITOS -->
+<section id="requisitos">
+  <div class="wrap">
+    <p class="eyebrow">Requisitos del sistema</p>
+    <h2 class="sec-title">20 funcionales, 8 no funcionales</h2>
+    <p class="sec-lead">Los requisitos de alto nivel que orientan el análisis, diseño y desarrollo.</p>
+    <div class="tabs" role="tablist">
+      <button class="tab" role="tab" aria-selected="true" data-t="rf">Funcionales (RF)</button>
+      <button class="tab" role="tab" aria-selected="false" data-t="rnf">No funcionales (RNF)</button>
+    </div>
+    <ul class="req-list" id="rf"></ul>
+    <ul class="req-list" id="rnf" hidden></ul>
+  </div>
+</section>
+
+<!-- ALCANCE -->
+<section class="alt">
+  <div class="wrap">
+    <p class="eyebrow">Alcance</p>
+    <h2 class="sec-title">Primera versión</h2>
+    <p class="sec-lead">Una aplicación web para una sola pastelería, desarrollada dentro del cronograma académico.</p>
+    <div class="two scope">
+      <div class="card in">
+        <h3>Incluye</h3>
+        <ul>
+          <li>Gestión de usuarios y roles</li>
+          <li>Catálogo, búsqueda y personalización</li>
+          <li>Control básico de almacén e inventario</li>
+          <li>Carrito, pedidos y cálculo del total</li>
+          <li>Cobranza por QR o depósito/transferencia</li>
+          <li>Recojo en tienda o delivery</li>
+          <li>Administración y reportes de ventas</li>
+        </ul>
+      </div>
+      <div class="card out">
+        <h3>Fuera del alcance</h3>
+        <ul>
+          <li>Aplicación móvil nativa</li>
+          <li>Gestión de múltiples sucursales</li>
+          <li>Integración directa con entidades bancarias</li>
+          <li>Optimización automática de rutas de delivery</li>
+          <li>Funciones avanzadas de inteligencia artificial</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJETIVO -->
+<section>
+  <div class="wrap">
+    <div class="objective">
+      <div>
+        <p class="eyebrow">Objetivo general</p>
+        <h2>Integrar todo el proceso de venta de una pastelería</h2>
+        <p>Desarrollar una aplicación web de comercio electrónico para la pastelería ficticia Dulces Aromas, que integre la oferta de productos, control básico de inventario, gestión de pedidos, cobranza mediante métodos de pago disponibles y distribución mediante recojo en tienda o delivery.</p>
+      </div>
+      <div>
+        <p class="eyebrow">Objetivos específicos</p>
+        <ul>
+          <li>Diseñar un catálogo digital de productos de pastelería.</li>
+          <li>Implementar registro, autenticación y gestión de usuarios.</li>
+          <li>Permitir la selección y personalización de productos.</li>
+          <li>Desarrollar el carrito y el registro de pedidos.</li>
+          <li>Implementar un control básico de almacén e inventario.</li>
+          <li>Registrar y verificar pagos por QR o depósito/transferencia.</li>
+          <li>Gestionar la preparación y distribución de los pedidos.</li>
+          <li>Centralizar productos, inventario, pedidos, pagos y ventas.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EQUIPO -->
+<section class="alt" id="equipo">
+  <div class="wrap">
+    <p class="eyebrow">SIS324 · Ingeniería de Software</p>
+    <h2 class="sec-title">Equipo de desarrollo</h2>
+    <p class="sec-lead">Universidad Mayor, Real y Pontificia de San Francisco Xavier de Chuquisaca — Facultad de Ciencias y Tecnología.</p>
+    <div class="team">
+      <div class="card member"><div class="actor"><div class="av" style="margin:0 auto">JA</div></div><h3>Juan Antonio Avendaño Retamozo</h3><p>Estudiante</p></div>
+      <div class="card member"><div class="actor"><div class="av" style="margin:0 auto">GD</div></div><h3>Gabriela Dávalos Nuñez</h3><p>Estudiante</p></div>
+      <div class="card member"><div class="actor"><div class="av" style="margin:0 auto">LM</div></div><h3>Luz Yumara Morejon Morales</h3><p>Estudiante</p></div>
+      <div class="card member"><div class="actor"><div class="av" style="margin:0 auto">RD</div></div><h3>Ing. Ramiro Duran</h3><p>Docente</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span><strong style="font-family:'Fraunces',serif;color:var(--cafe-dark)">Dulces Aromas</strong> — Momentos para compartir</span>
+    <span>Sucre – Bolivia · 2026</span>
+  </div>
+</footer>
+
+<script>
+  const CU = [
+    ["CU01","Iniciar sesión","Administrador / Cliente","Acceder al sistema con credenciales y controlar el acceso según el rol.",["Abre la pantalla de inicio de sesión","Ingresa correo o usuario","Ingresa su contraseña","El sistema valida las credenciales","El sistema identifica el rol","Muestra la pantalla principal correspondiente"]],
+    ["CU02","Gestionar productos del catálogo","Administrador","Registrar, modificar, consultar y controlar los productos ofrecidos.",["Ingresa al módulo Catálogo","Selecciona registrar, editar o consultar","Ingresa nombre, descripción, precio, categoría e imagen","El sistema valida los datos obligatorios","El sistema guarda los cambios","El producto se muestra según su disponibilidad"]],
+    ["CU03","Gestionar inventario","Administrador / Encargado de inventario","Controlar las existencias de productos e insumos.",["Ingresa al módulo Inventario","Consulta las existencias actuales","Selecciona entrada, salida o ajuste","Ingresa cantidad y motivo","El sistema valida el movimiento","Actualiza el stock y registra la operación"]],
+    ["CU04","Consultar catálogo","Cliente","Visualizar los productos disponibles antes de realizar un pedido.",["Ingresa al catálogo","El sistema muestra las categorías","Selecciona una categoría o busca","Se muestran nombre, descripción, precio e imagen","Consulta la disponibilidad","Selecciona un producto para ver su detalle"]],
+    ["CU05","Realizar pedido","Cliente","Seleccionar productos, personalizarlos y registrar un pedido.",["Selecciona un producto","Indica cantidad y personalización","Agrega el producto al carrito","Revisa el contenido y el total","Confirma e indica recojo o delivery","El sistema registra el pedido con su estado inicial"]],
+    ["CU06","Registrar pago","Cliente","Seleccionar un medio de pago y registrar el comprobante.",["Accede al pedido pendiente de pago","Selecciona QR o depósito/transferencia","Realiza el pago","Registra los datos y/o adjunta el comprobante","El sistema valida la información","Registra el pago como pendiente de verificación"]],
+    ["CU07","Verificar pago","Administrador / Encargado de cobranza","Verificar los pagos registrados y actualizar su estado.",["Ingresa al módulo Cobranza","Consulta los pagos pendientes","Revisa los datos y el comprobante","Compara con el medio de pago utilizado","Aprueba o rechaza","El sistema actualiza el estado del pago y del pedido"]],
+    ["CU08","Gestionar distribución del pedido","Administrador / Encargado de distribución","Gestionar la entrega y el seguimiento hasta la entrega o el recojo.",["Consulta los pedidos listos","Selecciona un pedido","Verifica la modalidad: delivery o recojo","Registra los datos de entrega","Actualiza a “en camino” o “listo para recojo”","Marca el pedido como entregado"]],
+    ["CU09","Gestionar usuarios y roles","Administrador","Administrar cuentas y asignar roles y permisos.",["Ingresa al módulo Seguridad/Usuarios","Consulta los usuarios registrados","Crea, edita, activa o desactiva un usuario","Asigna el rol correspondiente","El sistema valida datos y permisos","Guarda y aplica las restricciones del rol"]],
+    ["CU10","Consultar pedidos y ventas","Administrador","Consultar información consolidada para apoyar la administración.",["Ingresa al módulo Reportes/Consultas","Selecciona pedidos o ventas","Define filtros: fecha, estado o método de pago","El sistema procesa la consulta","Muestra los resultados","Revisa la información para el control del negocio"]]
+  ];
+  const chev = '<svg class="chev" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>';
+  document.getElementById('cu-grid').innerHTML = CU.map(([id,n,a,o,s]) =>
+    `<details class="cu"><summary><span class="cu-id">${id}</span><span class="cu-name">${n}<span class="cu-actor">${a}</span></span>${chev}</summary>
+     <div class="cu-body"><p><strong>Objetivo:</strong> ${o}</p><ol>${s.map(x=>`<li>${x}</li>`).join('')}</ol></div></details>`).join('');
+
+  const RF = ["Registro e inicio de sesión de los usuarios.","Catálogo de productos organizados por categorías.","Buscar y consultar información detallada de los productos.","Personalizar los productos que cuenten con esta opción.","Agregar, modificar y eliminar productos del carrito.","Calcular y mostrar el total del pedido.","Confirmar y registrar pedidos.","Consultar el historial y estado de los pedidos.","Registrar, editar y desactivar productos.","Gestionar las categorías del catálogo.","Registrar y actualizar las existencias del inventario.","Registrar entradas y salidas del inventario.","Identificar productos con disponibilidad baja.","Seleccionar el método de pago QR o depósito/transferencia.","Registrar la información o referencia del pago.","Verificar el pago y actualizar su estado.","Seleccionar entre recojo en tienda o delivery.","Registrar la información de los pedidos con delivery.","Actualizar el estado de preparación y distribución.","Consultar información de ventas, pedidos y pagos."];
+  const RNF = [["Usabilidad","Interfaz clara y fácil de utilizar."],["Rendimiento","Las operaciones principales responden en un tiempo adecuado."],["Seguridad","Funciones administrativas restringidas a usuarios autorizados."],["Compatibilidad","Funciona en navegadores web modernos."],["Adaptabilidad","Utilizable desde computadoras y dispositivos móviles."],["Fiabilidad","Información almacenada de forma consistente."],["Mantenibilidad","Permite futuras modificaciones y mejoras."],["Disponibilidad","Depende de conexión a internet y de los servicios necesarios."]];
+  const pad = i => String(i+1).padStart(2,'0');
+  document.getElementById('rf').innerHTML = RF.map((r,i)=>`<li><b>RF${pad(i)}</b><span>${r}</span></li>`).join('');
+  document.getElementById('rnf').innerHTML = RNF.map(([t,r],i)=>`<li><b>RNF${pad(i)}</b><span><strong style="color:var(--cafe-dark)">${t}:</strong> ${r}</span></li>`).join('');
+  document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.setAttribute('aria-selected', x===b));
+    document.getElementById('rf').hidden = b.dataset.t!=='rf';
+    document.getElementById('rnf').hidden = b.dataset.t!=='rnf';
+  }));
+
+  const root = document.documentElement;
+  try { const t = localStorage.getItem('da-theme'); if (t) root.dataset.theme = t; } catch(e){}
+  document.getElementById('theme').addEventListener('click', () => {
+    const dark = root.dataset.theme ? root.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+    root.dataset.theme = dark ? 'light' : 'dark';
+    try { localStorage.setItem('da-theme', root.dataset.theme); } catch(e){}
+  });
+</script>
+</body>
+</html>
